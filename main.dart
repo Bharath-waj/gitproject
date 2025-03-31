@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('assets/icon.png', width: 150), // Your Logo
+        child: Image.asset('asset/logo.jpg', width: 150), // Your Logo create a asset directory and add it and go to pubspec.yaml under flutter add assets: and in next line add - asset/logo.jpg 
       ),
     );
   }
