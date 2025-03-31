@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:flutter/material.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('logo.jpg', width: 150), // Replace with your logo
+        child: Image.asset('assets/icon.png', width: 150), // Your Logo
       ),
     );
   }
@@ -52,3 +51,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
