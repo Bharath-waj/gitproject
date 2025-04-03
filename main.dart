@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('assets/icon.png', width: 150),//icon your file
+        child: Image.asset('assets/icon.png', width: 150),
       ),
     );
   }
@@ -45,24 +45,41 @@ class _SplashScreenState extends State<SplashScreen> {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Home Page"),
-          bottom: TabBar(
-            tabs: [
-              Tab(text: "AI"),
-              Tab(text: "Carbon Footprint"),
-              Tab(text: "Plant Growth"),
-            ],
-          ),
-        ),
-        body: TabBarView(
+    return Scaffold(
+      appBar: AppBar(title: Text("Home Page")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AIScreen(),
-            CarbonFootprintScreen(),
-            PlantGrowthScreen(),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AIScreen()),
+                );
+              },
+              child: Text("AI"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CarbonFootprintScreen()),
+                );
+              },
+              child: Text("Carbon Footprint"),
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => PlantGrowthScreen()),
+                );
+              },
+              child: Text("Plant Growth"),
+            ),
           ],
         ),
       ),
@@ -73,8 +90,11 @@ class HomePage extends StatelessWidget {
 class AIScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("AI Content Here", style: TextStyle(fontSize: 18)),
+    return Scaffold(
+      appBar: AppBar(title: Text("AI")),
+      body: Center(
+        child: Text("AI Content Here", style: TextStyle(fontSize: 18)),
+      ),
     );
   }
 }
@@ -82,8 +102,11 @@ class AIScreen extends StatelessWidget {
 class CarbonFootprintScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Carbon Footprint Content Here", style: TextStyle(fontSize: 18)),
+    return Scaffold(
+      appBar: AppBar(title: Text("Carbon Footprint")),
+      body: Center(
+        child: Text("Carbon Footprint Content Here", style: TextStyle(fontSize: 18)),
+      ),
     );
   }
 }
@@ -91,8 +114,11 @@ class CarbonFootprintScreen extends StatelessWidget {
 class PlantGrowthScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text("Plant Growth Content Here", style: TextStyle(fontSize: 18)),
+    return Scaffold(
+      appBar: AppBar(title: Text("Plant Growth")),
+      body: Center(
+        child: Text("Plant Growth Content Here", style: TextStyle(fontSize: 18)),
+      ),
     );
   }
 }
