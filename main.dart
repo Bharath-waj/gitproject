@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Image.asset('asset/logo.jpg', width: 150), // Your Logo create a asset directory and add it and go to pubspec.yaml under flutter (after the block of dev_dependencies) add assets: and in next line add - asset/logo.jpg 
+        child: Image.asset('assets/icon.png', width: 150),//icon your file
       ),
     );
   }
@@ -45,10 +45,54 @@ class _SplashScreenState extends State<SplashScreen> {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Home Page")),
-      body: Center(child: Text("Welcome to Home Page!")),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Home Page"),
+          bottom: TabBar(
+            tabs: [
+              Tab(text: "AI"),
+              Tab(text: "Carbon Footprint"),
+              Tab(text: "Plant Growth"),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            AIScreen(),
+            CarbonFootprintScreen(),
+            PlantGrowthScreen(),
+          ],
+        ),
+      ),
     );
   }
 }
 
+class AIScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("AI Content Here", style: TextStyle(fontSize: 18)),
+    );
+  }
+}
+
+class CarbonFootprintScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Carbon Footprint Content Here", style: TextStyle(fontSize: 18)),
+    );
+  }
+}
+
+class PlantGrowthScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Plant Growth Content Here", style: TextStyle(fontSize: 18)),
+    );
+  }
+}
