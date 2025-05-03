@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
@@ -92,26 +94,204 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class AIScreen extends StatelessWidget {
+
+class AIScreen extends StatefulWidget {
+  @override
+  _AIScreenState createState() => _AIScreenState();
+}
+
+class _AIScreenState extends State<AIScreen> {
+  final TextEditingController _controller = TextEditingController();
+  String _response = '';
+  bool _loading = false;
+
+  Future<void> fetchAIResponse(String prompt) async {
+    setState(() {
+      _loading = true;
+      _response = '';
+    });
+
+    final url = Uri.parse('http://192.168.29.230:3000/chat');
+
+    try {
+      final res = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'prompt': prompt}),
+      );
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        final message = data['reply'];
+        setState(() {
+          _response = message;
+        });
+      } else {
+        setState(() {
+          _response = 'Server error: ${res.statusCode}';
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _response = 'Failed to connect to server: $e';
+      });
+    }
+
+    setState(() {
+      _loading = false;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("AI")),
-      body: Center(
-        child: Text("AI Content Here", style: TextStyle(fontSize: 18)),
+      appBar: AppBar(title: Text("AI Assistant")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: _controller,
+              decoration: InputDecoration(
+                labelText: "Ask a question",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                if (_controller.text.isNotEmpty) {
+                  fetchAIResponse(_controller.text);
+                }
+              },
+              child: Text("Get Response"),
+            ),
+            SizedBox(height: 20),
+            _loading
+                ? CircularProgressIndicator()
+                : Expanded(
+              child: SingleChildScrollView(
+                child: Text(
+                  _response,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class PlantGrowthScreen extends StatelessWidget {
+
+class PlantGrowthScreen extends StatefulWidget {
+  @override
+  _PlantGrowthScreenState createState() => _PlantGrowthScreenState();
+}
+
+class _PlantGrowthScreenState extends State<PlantGrowthScreen> {
+  final TextEditingController _plantController = TextEditingController();
+  String _careTip = '';
+  String _remedy = '';
+
+  final Map<String, String> plantCareTips = {
+    'Rose': 'Full sunlight, water regularly, prune often.',
+    'Money Plant': 'Indirect light, water when soil is dry.',
+    'Tulsi': 'Plenty of sunlight, water daily.',
+    'Marigold': 'Full sun, regular watering.',
+    'Hibiscus': 'Lots of sunlight, keep soil moist.',
+    'Sunflower': 'Full sun, water when topsoil is dry.',
+    'Mint': 'Partial shade, water regularly.',
+    'Basil': 'Full sun, water when soil feels dry.',
+    'Curry Leaf': 'Full sun, well-draining soil, moderate watering.',
+    'Chrysanthemum': 'Bright light, water evenly.',
+    'Snake Plant': 'Low light, water when soil is dry.',
+    'Peace Lily': 'Indirect light, keep soil moist.',
+    'Aloe Vera': 'Bright light, water sparingly.',
+    'Spider Plant': 'Bright, indirect light; water moderately.',
+    'ZZ Plant': 'Low light, water when soil is dry.',
+    'Monstera': 'Bright, indirect light; water when topsoil is dry.',
+    'Jade Plant': 'Bright light, water when soil is dry.',
+    'Succulent': 'Bright light, water when soil is dry.',
+    'Lucky Bamboo': 'Keep roots in water, avoid direct sun.',
+  };
+
+  final Map<String, String> plantProblems = {
+    'Yellowing Leaves': 'Overwatering or poor drainage. Let soil dry out.',
+    'Brown Leaf Tips': 'Low humidity. Increase moisture around plant.',
+    'Wilting': 'Underwatering or root rot. Adjust watering.',
+    'Leaf Drop': 'Sudden temp changes. Stabilize environment.',
+    'Spotted Leaves': 'Fungal infection. Remove spots and apply fungicide.',
+    'Powdery Mildew': 'Fungus. Improve airflow, use fungicide.',
+    'Root Rot': 'Too much water. Trim roots, repot.',
+    'Pale Leaves': 'Lack of nutrients. Add fertilizer.',
+    'Stunted Growth': 'Lack of light or nutrients.',
+    'Leggy Growth': 'Needs more light.',
+    'Leaf Curling': 'Possible pest attack. Check underside.',
+    'Black Spots': 'Fungal issue. Remove affected parts.',
+    'Moldy Soil': 'Overwatering. Allow to dry.',
+    'Sticky Leaves': 'Aphids or pests. Wash leaves.',
+    'Brown Patches': 'Sunburn. Provide indirect light.',
+  };
+
+  void _getCareTip() {
+    final plantName = _plantController.text.trim();
+    setState(() {
+      _careTip = plantCareTips[plantName] ?? 'No care tip found for this plant.';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Plant Growth")),
-      body: Center(
-        child: Text("Plant Growth Content Here", style: TextStyle(fontSize: 18)),
-      ),
+        appBar: AppBar(title: Text('Plant Growth Tips')),
+        body: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  TextField(
+                    controller: _plantController,
+                    decoration: InputDecoration(
+                      labelText: 'Enter Plant Name',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _getCareTip,
+                    child: Text('Get Care Tip'),
+                  ),
+                  SizedBox(height: 10),
+                  Text(_careTip, style: TextStyle(fontSize: 16)),
+                  Divider(height: 30),
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      labelText: 'Select Plant Problem',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: plantProblems.keys.map((String problem) {
+                      return DropdownMenuItem<String>(
+                        value: problem,
+                        child: Text(problem),
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      if (value != null) {
+                        setState(() {
+                          _remedy = plantProblems[value]!;
+                        });
+                      }
+                    },
+                  ),
+                  SizedBox(height: 10),
+                  Text(_remedy, style: TextStyle(fontSize: 16)),
+                ],
+              ),
+            ),
+        ),
     );
   }
 }
