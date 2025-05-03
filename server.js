@@ -20,7 +20,7 @@ app.post('/chat', async (req, res) => {
       const response = await axios.post(
         'https://api.together.xyz/v1/chat/completions',
         {
-          model: 'mistralai/Mistral-7B-Instruct-v0.2', // You can change model here
+          model: 'mistralai/Mistral-7B-Instruct-v0.2', 
           messages: [
             { role: 'system', content: 'You are a helpful assistant.' },
             { role: 'user', content: prompt }
