@@ -1,0 +1,130 @@
+
+.vault-page {
+  min-height: 100vh;
+  background: linear-gradient(-45deg, #030032, #000005, #00fffb, #00f7ff);
+  background-size: 400% 400%;
+  animation: gradientBG 10s ease infinite;
+  color: white;
+}
+
+.vault-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.vault-header h1 {
+  color: #00ffff;
+  margin: 0;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logout-btn {
+  padding: 0.5rem 1rem;
+  background: rgba(255, 65, 108, 0.8);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.vault-content {
+  padding: 2rem;
+}
+
+.storage-info {
+  text-align: center;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.vault-container {
+  margin-top: 2rem;
+}
+
+.vault-container h3 {
+  color: #00ffff;
+  margin-bottom: 1rem;
+}
+
+.files-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.file-card {
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 10px;
+  padding: 1rem;
+}
+
+.file-name {
+  color: #00ffff;
+  margin: 0 0 0.5rem 0;
+  word-break: break-all;
+}
+
+.file-details {
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+}
+
+.file-date {
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0.25rem 0;
+  font-size: 0.8rem;
+}
+
+.file-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.download-btn {
+  flex: 1;
+  padding: 0.5rem;
+  background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-btn {
+  flex: 1;
+  padding: 0.5rem;
+  background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+}
+
+.delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.vault-loading, .vault-empty {
+  text-align: center;
+  padding: 3rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

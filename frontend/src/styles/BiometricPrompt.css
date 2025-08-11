@@ -1,0 +1,395 @@
+
+.biometric-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.biometric-modal {
+  background: rgba(10, 10, 20, 0.95);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  border-radius: 25px;
+  padding: 0;
+  max-width: 400px;
+  width: 90%;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(20px);
+  animation: modalSlideIn 0.4s ease-out;
+}
+
+.biometric-modal::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: conic-gradient(from 0deg at 50% 50%, transparent, rgba(0, 255, 255, 0.1), transparent);
+  animation: rotate 20s linear infinite;
+  z-index: -1;
+}
+
+.biometric-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.biometric-header h3 {
+  color: white;
+  margin: 0;
+  font-size: 1.3rem;
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.close-btn:hover {
+  color: #ff6b6b;
+  background: rgba(255, 107, 107, 0.1);
+  transform: scale(1.1);
+}
+
+.biometric-content {
+  padding: 2rem;
+  text-align: center;
+}
+
+.fingerprint-scanner {
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 2rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scanner-ring {
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(0, 255, 255, 0.3);
+  border-radius: 50%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.fingerprint-scanner.scanning .scanner-ring {
+  border-color: rgba(0, 255, 255, 0.8);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 255, 0.5),
+    inset 0 0 30px rgba(0, 255, 255, 0.2);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.fingerprint-scanner.success .scanner-ring {
+  border-color: rgba(0, 255, 0, 0.8);
+  box-shadow: 
+    0 0 30px rgba(0, 255, 0, 0.5),
+    inset 0 0 30px rgba(0, 255, 0, 0.2);
+}
+
+.fingerprint-scanner.failed .scanner-ring {
+  border-color: rgba(255, 0, 0, 0.8);
+  box-shadow: 
+    0 0 30px rgba(255, 0, 0, 0.5),
+    inset 0 0 30px rgba(255, 0, 0, 0.2);
+  animation: shake 0.5s ease-in-out;
+}
+
+.scanner-pulse {
+  width: 80%;
+  height: 80%;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  border-radius: 50%;
+  position: absolute;
+  animation: expand 3s ease-out infinite;
+  opacity: 0;
+}
+
+.fingerprint-scanner.scanning .scanner-pulse {
+  opacity: 1;
+}
+
+.fingerprint-icon {
+  font-size: 3rem;
+  z-index: 1;
+  filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+  transition: all 0.3s ease;
+}
+
+.fingerprint-scanner.scanning .fingerprint-icon {
+  animation: glow 1.5s ease-in-out infinite alternate;
+}
+
+.scan-line {
+  position: absolute;
+  width: 120%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ffff, transparent);
+  animation: scanLine 2s linear infinite;
+  opacity: 0.8;
+}
+
+.scan-status p {
+  color: white;
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+}
+
+.scan-btn, .retry-btn {
+  background: linear-gradient(135deg, #00ffff, #0088ff);
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 25px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.scan-btn:hover, .retry-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 255, 255, 0.3);
+}
+
+.scanning-text {
+  color: #00ffff;
+  font-weight: bold;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.progress-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.progress-dots span {
+  width: 8px;
+  height: 8px;
+  background: #00ffff;
+  border-radius: 50%;
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+.progress-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.progress-dots span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.success-message {
+  color: #00ff00;
+}
+
+.checkmark {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: successPop 0.6s ease-out;
+}
+
+.error-message {
+  color: #ff6b6b;
+}
+
+.error-mark {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  animation: errorShake 0.6s ease-out;
+}
+
+.biometric-footer {
+  padding: 1rem 2rem 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  border-top: 1px solid rgba(0, 255, 255, 0.1);
+}
+
+.security-indicators {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.indicator {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.3rem 0.6rem;
+  border-radius: 15px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.indicator.active {
+  color: #00ffff;
+  border-color: rgba(0, 255, 255, 0.3);
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% { 
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+}
+
+@keyframes expand {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes glow {
+  from {
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.3));
+  }
+  to {
+    filter: drop-shadow(0 0 20px rgba(0, 255, 255, 0.8));
+  }
+}
+
+@keyframes scanLine {
+  0% { 
+    transform: translateY(-60px);
+    opacity: 0;
+  }
+  50% { 
+    opacity: 1;
+  }
+  100% { 
+    transform: translateY(60px);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+@keyframes dotPulse {
+  0%, 100% { 
+    transform: scale(1);
+    opacity: 0.5;
+  }
+  50% { 
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes successPop {
+  0% { 
+    transform: scale(0);
+    opacity: 0;
+  }
+  50% { 
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% { 
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes errorShake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@media (max-width: 480px) {
+  .biometric-modal {
+    width: 95%;
+  }
+  
+  .biometric-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .biometric-content {
+    padding: 1.5rem;
+  }
+  
+  .fingerprint-scanner {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .fingerprint-icon {
+    font-size: 2.5rem;
+  }
+}
